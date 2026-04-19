@@ -19,8 +19,11 @@ export class Home implements OnInit, OnDestroy {
 
   private sub?: Subscription;
   constructor(private cdr: ChangeDetectorRef) {}
-  
+
   ngOnInit() {
+    const saved = localStorage.getItem('isRevealed');
+
+    this.isRevealed = saved === 'true';
     this.updateCountdown();
 
     // update every second
@@ -31,6 +34,16 @@ export class Home implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+  }
+
+  reveal(){
+    this.isRevealed = true;
+    localStorage.setItem('isRevealed', 'true');
+  }
+
+  resetReveal(){
+    this.isRevealed = false;
+    localStorage.removeItem('isRevealed');
   }
 
   private updateCountdown() {
