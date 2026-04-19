@@ -1,6 +1,15 @@
 <div class="home-container">
-
     <img class="dog-img" src="/assets/dog.png" alt="Dog Sensei" >
     <h1 animate.enter="enter-animation">Welcome my young students to the path of the Dog</h1>
     <h2 class="subtext" animate.enter="enter-animation">Embrace your weekly duty</h2>
+
+    <button animate.enter="enter-animation" mat-flat-button [disabled]="isRevealed" (click)="isRevealed=true">
+        {{isRevealed ? "Insert Mission" : "Reveal"}}
+    </button>
+
+    @if(isRevealed){
+        <h2 class="next-date-text">
+            Next mission in {{this.days > 0 ? this.days+" days, " : ""}} {{this.hours > 0 ? this.hours+" hours, " : ""}} {{this.minutes > 0 ? this.minutes+" minutes, " : ""}} and {{this.seconds}} seconds
+        </h2>
+    }
 </div>

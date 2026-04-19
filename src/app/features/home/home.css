@@ -17,9 +17,15 @@
     font-size: 15px;
 }
 
+.next-date-text{
+    color: rgb(166, 165, 165);
+    font-size: 8px;
+}
+
 .enter-animation {
   animation: slide-fade 1s;
 }
+
 
 @keyframes slide-fade {
   from {
@@ -31,3 +37,4 @@
     transform: translateY(0);
   }
 }
+
