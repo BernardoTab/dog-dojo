@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { interval, Subscription } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
+import { QuestService } from './services/quest-service';
 
 @Component({
   selector: 'app-home',
@@ -16,14 +17,18 @@ export class Home implements OnInit, OnDestroy {
   hours = 0;
   minutes = 0;
   seconds = 0;
+  questTitle = "";
+  questDescription = "";
 
   private sub?: Subscription;
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private readonly questService : QuestService) {}
 
   ngOnInit() {
-    const saved = localStorage.getItem('isRevealed');
 
-    this.isRevealed = saved === 'true';
+    this.getWeeklyQuest();
+
     this.updateCountdown();
 
     // update every second
@@ -36,14 +41,21 @@ export class Home implements OnInit, OnDestroy {
     this.sub?.unsubscribe();
   }
 
+  getWeeklyQuest(){
+    this.questService.getQuests().subscribe(response => 
+    {
+      this.questTitle = response.Quest.Title;
+      this.questDescription = response.Quest.Description;
+    }
+    )
+  }
+
   reveal(){
     this.isRevealed = true;
-    localStorage.setItem('isRevealed', 'true');
   }
 
   resetReveal(){
     this.isRevealed = false;
-    localStorage.removeItem('isRevealed');
   }
 
   private updateCountdown() {
@@ -127,4 +139,15 @@ export class Home implements OnInit, OnDestroy {
     return seconds;
   }
 
+  get mainQuestText(): string {
+    if (!this.isRevealed) return 'Reveal';
+    if (!this.questTitle) return 'No quest available';
+    return `Weekly Quest: ${this.questTitle}`;
+  }
+
+  get subQuestText(): string {
+    return this.isRevealed && this.questTitle ? this.questDescription : '';
+  }
 }
+
+

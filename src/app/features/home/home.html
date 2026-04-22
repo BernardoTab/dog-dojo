@@ -4,7 +4,12 @@
     <h2 class="subtext" animate.enter="enter-animation">Embrace your weekly duty</h2>
 
     <button animate.enter="enter-animation" mat-flat-button [disabled]="isRevealed" (click)="reveal()">
-        {{isRevealed ? "Insert Mission" : "Reveal"}}
+        <span class="quest-span">
+            <span class="main">{{ mainQuestText }}</span>
+            @if(subQuestText){
+                <span class="sub">{{ subQuestText }}</span>
+            }
+        </span>
     </button>
 
     @if(isRevealed){
