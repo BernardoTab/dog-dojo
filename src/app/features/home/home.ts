@@ -11,7 +11,7 @@ import { QuestService } from './services/quest-service';
   styleUrl: './home.css',
 })
 export class Home implements OnInit, OnDestroy {
-
+  isLoadingQuest = false;
   isRevealed = false;
   days = 0;
   hours = 0;
@@ -26,7 +26,7 @@ export class Home implements OnInit, OnDestroy {
     private readonly questService : QuestService) {}
 
   ngOnInit() {
-
+    this.isLoadingQuest = true;
     this.getWeeklyQuest();
 
     this.updateCountdown();
@@ -42,12 +42,17 @@ export class Home implements OnInit, OnDestroy {
   }
 
   getWeeklyQuest(){
-    this.questService.getQuests().subscribe(response => 
-    {
-      this.questTitle = response.title;
-      this.questDescription = response.description;
-    }
-    )
+    this.questService.getQuests().subscribe({
+      next: (response) => {
+        this.questTitle = response.title;
+        this.questDescription = response.description;
+
+        this.isLoadingQuest = false;
+      },
+      error: () => {
+        this.isLoadingQuest = false;
+      }
+    });
   }
 
   reveal(){

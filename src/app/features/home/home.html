@@ -5,9 +5,17 @@
 
     <button animate.enter="enter-animation" mat-flat-button [disabled]="isRevealed" (click)="reveal()">
         <span class="quest-span">
-            <span class="main">{{ mainQuestText }}</span>
-            @if(subQuestText){
-                <span class="sub">{{ subQuestText }}</span>
+            @if (isRevealed && isLoadingQuest) {
+                <span class="main">
+                    Loading quest...
+                </span>
+            }
+            @else {
+                <span class="main">{{ mainQuestText }}</span>
+
+                @if(subQuestText){
+                    <span class="sub">{{ subQuestText }}</span>
+                }
             }
         </span>
     </button>
