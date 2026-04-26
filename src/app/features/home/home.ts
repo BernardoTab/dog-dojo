@@ -44,8 +44,8 @@ export class Home implements OnInit, OnDestroy {
   getWeeklyQuest(){
     this.questService.getQuests().subscribe(response => 
     {
-      this.questTitle = response.Quest.Title;
-      this.questDescription = response.Quest.Description;
+      this.questTitle = response.title;
+      this.questDescription = response.description;
     }
     )
   }
